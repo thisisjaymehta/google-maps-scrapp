@@ -36,6 +36,7 @@ async function scrape(category) {
 		await pause(1000);
 		try {
 			await driver.get("https://www.google.com/maps/");
+			await driver.manage().window().maximize()
 			await driver.findElement(By.name("q")).sendKeys(`${category} in ${location}`, Key.RETURN);
 			await driver.wait(until.elementLocated(By.css("div[role='article']")), 10000); // Wait till First iteam load
 			var element = await driver.findElement(By.css(".m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd div")); // Places list with scroll bar
