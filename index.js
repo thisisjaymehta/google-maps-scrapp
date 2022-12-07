@@ -36,7 +36,7 @@ async function scrape(category) {
 		await pause(1000);
 		try {
 			await driver.get("https://www.google.com/maps/");
-			await driver.manage().window().maximize()
+			await driver.manage().window().maximize();
 			await driver.findElement(By.name("q")).sendKeys(`${category} in ${location}`, Key.RETURN);
 			await driver.wait(until.elementLocated(By.css("div[role='article']")), 10000); // Wait till First iteam load
 			var element = await driver.findElement(By.css(".m6QErb.DxyBCb.kA9KIf.dS8AEf.ecceSd div")); // Places list with scroll bar
@@ -76,7 +76,14 @@ async function scrape(category) {
 
 					await places[i].click(); // Click on ith item in list
 					await pause(2000);
-					await driver.wait(until.elementLocated(By.className("Io6YTe fontBodyMedium")), 10000); // Wait until data is loaded
+					await driver
+						.wait(until.elementLocated(By.className("Io6YTe fontBodyMedium")), 10000)
+						.then(() => {
+							return true;
+						})
+						.catch((e) => {
+							return true;
+						}); // Wait until data is loaded
 
 					// Name of place
 					try {
@@ -89,14 +96,14 @@ async function scrape(category) {
 					try {
 						let rating = await driver.findElement(By.css(".F7nice.mmu3tf span span span"));
 						var ratingvalue = await rating.getAttribute("innerHTML"); // Ratings
-					} catch (e)  {
+					} catch (e) {
 						var ratingvalue = "None";
 					}
 
 					try {
 						let type = await driver.findElement(By.css("button[jsaction='pane.rating.category']"));
 						var typevalue = await type.getAttribute("innerHTML"); // Category
-					} catch (e)  {
+					} catch (e) {
 						var typevalue = "None";
 					}
 
@@ -105,19 +112,18 @@ async function scrape(category) {
 							By.css("button[data-item-id='address'] > :first-child > :nth-child(2) > :first-child")
 						);
 						var addressValue = await address.getAttribute("innerHTML"); // Category
-						let pincode = addressValue.substring(addressValue.length - 6)
-						if(!pincodes.includes(pincode)){
+						let pincode = addressValue.substring(addressValue.length - 6);
+						if (!pincodes.includes(pincode)) {
 							break;
 						}
-					} catch  (e) {
+					} catch (e) {
 						var addressValue = "None";
 					}
-
 
 					try {
 						let website = await driver.findElement(By.css("a[data-item-id='authority']"));
 						var websiteValue = await website.getAttribute("href"); // Category
-					} catch  (e) {
+					} catch (e) {
 						var websiteValue = "None";
 					}
 
@@ -128,7 +134,7 @@ async function scrape(category) {
 							)
 						);
 						var phoneValue = await phone.getAttribute("innerHTML"); // Category
-					} catch  (e) {
+					} catch (e) {
 						var phoneValue = "None";
 					}
 
