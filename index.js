@@ -1,5 +1,5 @@
 // INPUTS
-var location = "Mumbai";
+var location = "Rajkot";
 var finalPathFile = "out.csv";
 
 // IMPORTS
@@ -82,21 +82,21 @@ async function scrape(category) {
 					try {
 						let name = await driver.findElement(By.css(".DUwDvf.fontHeadlineLarge span"));
 						var nameValue = await name.getAttribute("innerHTML"); // Name of the place
-					} catch {
+					} catch (e) {
 						var nameValue = "None";
 					}
 
 					try {
 						let rating = await driver.findElement(By.css(".F7nice.mmu3tf span span span"));
 						var ratingvalue = await rating.getAttribute("innerHTML"); // Ratings
-					} catch {
+					} catch (e)  {
 						var ratingvalue = "None";
 					}
 
 					try {
 						let type = await driver.findElement(By.css("button[jsaction='pane.rating.category']"));
 						var typevalue = await type.getAttribute("innerHTML"); // Category
-					} catch {
+					} catch (e)  {
 						var typevalue = "None";
 					}
 
@@ -109,7 +109,7 @@ async function scrape(category) {
 						if(!pincodes.includes(pincode)){
 							break;
 						}
-					} catch {
+					} catch  (e) {
 						var addressValue = "None";
 					}
 
@@ -117,7 +117,7 @@ async function scrape(category) {
 					try {
 						let website = await driver.findElement(By.css("a[data-item-id='authority']"));
 						var websiteValue = await website.getAttribute("href"); // Category
-					} catch {
+					} catch  (e) {
 						var websiteValue = "None";
 					}
 
@@ -128,7 +128,7 @@ async function scrape(category) {
 							)
 						);
 						var phoneValue = await phone.getAttribute("innerHTML"); // Category
-					} catch {
+					} catch  (e) {
 						var phoneValue = "None";
 					}
 
